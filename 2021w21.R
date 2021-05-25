@@ -4,6 +4,7 @@ library("patchwork")
 
 survey <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-18/survey.csv')
 
+
 # Copied and pasted from the survey
 us_states <-
     c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
