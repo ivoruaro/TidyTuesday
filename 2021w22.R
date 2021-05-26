@@ -140,8 +140,8 @@ r4 <- f_dks_jungle_parkway |
 pw <- (r1 / r2 / r3 / r4) &
     theme_fivethirtyeight() &
     plot_annotation(
-        title = "Mario Kart 64 Track Records Over the Years",
-        subtitle = "In seconds, <span style='color:#77ab43;'><strong>with shortcuts</strong></span> and <span style='color:#008fd5;'><strong>without shortcuts</strong></span>. Each dot is an annual record.",
+        title = "Mario Kart 64 Track Records Over the Years for Three Laps",
+        subtitle = "Records are in seconds, <span style='color:#77ab43;'><strong>with shortcuts</strong></span> and <span style='color:#008fd5;'><strong>without shortcuts</strong></span>. Each dot is an annual record.",
         caption = 'Ivo Ruaro - 2021-05-26 | #TinyTuesday 2021w22 | Mario Kart World Record',
         theme = theme(plot.subtitle = element_markdown()))
 pw
