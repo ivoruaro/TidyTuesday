@@ -1,9 +1,9 @@
-library(tidytuesdayR)
-library(tidyverse)
-library(ggplot2)
-library(dplyr)
-library(maps)
-library(plotly)
+library('tidytuesdayR')
+library('tidyverse')
+library('ggplot2')
+library('dplyr')
+library('maps')
+library('plotly')
 
 
 # Load and cleanup data
@@ -20,7 +20,7 @@ df <- df_2021w25 %>%
     summarize(count = n())
 
 # World data map
-world_map <- map_data("world")
+world_map <- map_data('world')
 
 # Build the plot
 plot <- world_map %>%
@@ -31,7 +31,7 @@ plot <- world_map %>%
             group = group)) +
     # World map
     geom_polygon(
-        fill = "#b39d88",
+        fill = '#b39d88',
         colour = "grey50",
         aes(
             text = paste(region, ifelse(is.na(subregion), '', subregion )  ))) +
@@ -43,7 +43,11 @@ plot <- world_map %>%
             y = lat,
             group = username,
             size = count,
-            text = paste(username, '\nTweets:', count, '\nLong:', long, '\nLat:', lat)
+            text = paste(
+                username, 
+                '\nTweets:', count, 
+                '\nLong:', long, 
+                '\nLat:', lat)
         ),
         color = '#bb263c',
         alpha = 0.7,
@@ -85,6 +89,8 @@ plot <- world_map %>%
 
 # Plotly
 ply <- ggplotly(plot, tooltip = 'text')
+
+ply
 
 # Save the html
 htmlwidgets::saveWidget(as_widget(ply), "2021w25.html")
