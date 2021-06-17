@@ -6,7 +6,7 @@ library('maps')
 library('plotly')
 
 
-# Load and cleanup data
+### Load and cleanup data
 tidytuesday_data <- 
     tidytuesdayR::tt_load(2021, week = 25)
 
@@ -14,15 +14,15 @@ df_2021w25 <-
     tidytuesday_data$tweets %>%
     drop_na()
 
-# Prepare the data
+### Prepare data
 df <- df_2021w25 %>%
     group_by(username, lat, long) %>%
     summarize(count = n())
 
-# World data map
+### World data map
 world_map <- map_data('world')
 
-# Build the plot
+### Build the plot
 plot <- world_map %>%
     ggplot(
         aes(
@@ -75,9 +75,8 @@ plot <- world_map %>%
         color = 'gray50',
         text = ':)'
     ) +
-    # Main Theme
+    # Theme
     theme_void() +
-    # Clean up theme
     theme(
         legend.position='none',
         panel.background = element_rect(
@@ -87,12 +86,11 @@ plot <- world_map %>%
             linetype = "solid"),
         axis.line = element_blank())
 
-# Plotly
+### Plotly
 ply <- ggplotly(plot, tooltip = 'text')
 
-ply
 
-# Save the html
+### Save html
 htmlwidgets::saveWidget(as_widget(ply), "2021w25.html")
 
 
