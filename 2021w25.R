@@ -34,7 +34,12 @@ plot <- world_map %>%
         fill = '#b39d88',
         colour = "grey50",
         aes(
-            text = paste(region, ifelse(is.na(subregion), '', subregion )  ))) +
+            text = paste(
+                region, 
+                ifelse(
+                    is.na(subregion),
+                    '', 
+                    subregion)))) +
     # Tweet Location
     geom_point(
         data = df,
@@ -62,6 +67,7 @@ plot <- world_map %>%
         hjust = 0,
         label = '#DuBoisChallenge\nTweets by location',
         color = 'gray40',
+        family = 'mono',
         text = ':)'
     ) +
     # Tag line
@@ -71,8 +77,9 @@ plot <- world_map %>%
         y = -15,
         size = 3,
         hjust = 0,
-        label = 'Ivo Ruaro | #TinyTuestday 2021w25',
+        label = 'Ivo Ruaro | #TinyTuesday 2021w25\n2021-06-16',
         color = 'gray50',
+        family = 'mono',
         text = ':)'
     ) +
     # Theme
@@ -88,7 +95,6 @@ plot <- world_map %>%
 
 ### Plotly
 ply <- ggplotly(plot, tooltip = 'text')
-
 
 ### Save html
 htmlwidgets::saveWidget(as_widget(ply), "2021w25.html")
