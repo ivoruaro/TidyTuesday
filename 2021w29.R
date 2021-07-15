@@ -2,50 +2,18 @@ library('tidyverse')
 library('tidytuesdayR')
 library('lubridate')
 library('ggplot2')
-#library('gganimate')
-#library('hrbrthemes')
 library('ggbump')
 library('png')
 library('grid')
 library('ggpubr')
 
+# Scooby Doo fonts: https://www.dafont.com/it/scoobydoo.font
+windowsFonts(ScoobyFonts=windowsFont("Scooby Doo"))
+
+# Load data
 tuesdata <- tidytuesdayR::tt_load(2021, week = 29)
 scoobydoo <- tuesdata$scoobydoo
 
-
-# # captured
-# df <- scoobydoo %>% 
-#     # fred
-#     mutate(captured_fred_v = if_else(captured_fred == 'TRUE', 1, 0, 0)) %>%
-#     # daphnie
-#     mutate(captured_daphnie_v = if_else(captured_daphnie == 'TRUE', 1, 0, 0)) %>%
-#     # velma
-#     mutate(captured_velma_v = if_else(captured_velma == 'TRUE', 1, 0, 0)) %>%
-#     # shaggy
-#     mutate(captured_shaggy_v = if_else(captured_shaggy == 'TRUE', 1, 0, 0)) %>%
-#     # scooby
-#     mutate(captured_scooby_v = if_else(captured_scooby == 'TRUE', 1, 0, 0)) %>%
-#     # summarize
-#     mutate(year = year(ymd(date_aired))) %>%
-#     group_by(year) %>%
-#     summarize(
-#         fred = sum(captured_fred_v),
-#         daphnie = sum(captured_daphnie_v),
-#         velma = sum(captured_velma_v),
-#         shaggy = sum(captured_shaggy_v),
-#         scooby = sum(captured_scooby_v)) %>%
-#     # cumulative sum
-#     mutate(
-#         fred = cumsum(fred),
-#         daphnie = cumsum(daphnie),
-#         velma = cumsum(velma),
-#         shaggy = cumsum(shaggy),
-#         scooby = cumsum(scooby)
-#     ) %>%
-#     select(year, fred, daphnie, velma, shaggy, scooby) %>%
-#     # pivot
-#     pivot_longer(!year)
-    
 # snack
 df <- scoobydoo %>% 
     # fred
@@ -84,32 +52,22 @@ df <- scoobydoo %>%
     
 
 ### Load images
-# fred
 i_fred <- rasterGrob(readPNG("2021w29-fred.png"))
-y_fred <- max(df %>% filter(name == 'fred') %>% select(value))
-
-# daphnie
 i_daphnie <- rasterGrob(readPNG("2021w29-daphnie.png"))
-y_daphnie <- max(df %>% filter(name == 'daphnie') %>% select(value))
-
-# velma
 i_velma <- rasterGrob(readPNG("2021w29-velma.png"))
-y_velma <- max(df %>% filter(name == 'velma') %>% select(value))
-
-# shaggy
 i_shaggy <- rasterGrob(readPNG("2021w29-shaggy.png"))
-y_shaggy <- max(df %>% filter(name == 'shaggy') %>% select(value))
-
-# scooby
 i_scooby <- rasterGrob(readPNG("2021w29-scooby.png"))
+i_background <- rasterGrob(readPNG("2021w29-background.png"))
+
+### coords
+y_fred <- max(df %>% filter(name == 'fred') %>% select(value))
+y_daphnie <- max(df %>% filter(name == 'daphnie') %>% select(value))
+y_velma <- max(df %>% filter(name == 'velma') %>% select(value))
+y_shaggy <- max(df %>% filter(name == 'shaggy') %>% select(value))
 y_scooby <- max(df %>% filter(name == 'scooby') %>% select(value))
+x_all <- max(df$year) - 1.5 #2019.5
 
-# background
-i_background <- readPNG("2021w29-background.png")
-
-# Images coordinates
 size <- 5
-x_all <- 2019.5
 
 df %>% 
     ggplot(
@@ -119,6 +77,12 @@ df %>%
             color = name
         )
     ) +
+    annotation_custom(
+        i_background,
+        ymin = 15,
+        ymax = 50,
+        xmin = 1965, 
+        xmax = 1990) +
     geom_bump(smooth = 20, size = 2, alpha = 0.8) +
     annotation_custom(
         i_fred,
@@ -154,13 +118,12 @@ df %>%
     theme_minimal() +
     theme(
         legend.position = 'none',
-        plot.title = element_text(family = 'Scooby Doo'),
-        text = element_text(family = 'Scooby Doo'),
-        plot.background = element_rect(
-            size = 15,
-            fill = 'white',
-            color = 'white'
-        )
+        plot.title = element_text(size = 60),
+        plot.subtitle = element_text(size = 30),
+        plot.caption = element_text(size = 12),
+        text = element_text(family = 'ScoobyFonts'),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank()
     ) + 
     scale_color_manual(
         values = c(
@@ -172,5 +135,7 @@ df %>%
         )
     ) +
     labs(
-        title = 'Who eaten the snack?'
+        title = 'Who eaten the snack?',
+        subtitle = 'Cumulative eaten snacks over the years.',
+        caption = '\nIvo Ruaro 2021-07-15 | Data: Kaggle| #TidyTuesday 2021w29'
     )
