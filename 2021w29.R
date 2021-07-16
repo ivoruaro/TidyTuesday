@@ -57,7 +57,7 @@ i_daphnie <- rasterGrob(readPNG("2021w29-daphnie.png"))
 i_velma <- rasterGrob(readPNG("2021w29-velma.png"))
 i_shaggy <- rasterGrob(readPNG("2021w29-shaggy.png"))
 i_scooby <- rasterGrob(readPNG("2021w29-scooby.png"))
-i_background <- rasterGrob(readPNG("2021w29-background.png"))
+i_background <- rasterGrob(readPNG("2021w29-background-v2.png"))
 
 ### coords
 y_fred <- max(df %>% filter(name == 'fred') %>% select(value))
@@ -82,8 +82,8 @@ df %>%
         ymin = 15,
         ymax = 50,
         xmin = 1965, 
-        xmax = 1990) +
-    geom_bump(smooth = 20, size = 2, alpha = 0.8) +
+        xmax = 1987) +
+    geom_bump(smooth = 20, size = 2) +
     annotation_custom(
         i_fred,
         ymin = y_fred - size / 2,
@@ -123,15 +123,16 @@ df %>%
         plot.caption = element_text(size = 12),
         text = element_text(family = 'ScoobyFonts'),
         axis.title.x = element_blank(),
-        axis.title.y = element_blank()
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank()
     ) + 
     scale_color_manual(
         values = c(
-            '#aa9ec5',
-            '#feef7a',
-            '#ad7229',
-            '#e9943a',
-            '#8b443e'
+            '#4039e8',
+            '#feef7a70',
+            '#ad722970',
+            '#e9943a70',
+            '#8b443e70'
         )
     ) +
     labs(
@@ -139,3 +140,4 @@ df %>%
         subtitle = 'Cumulative eaten snacks over the years.',
         caption = '\nIvo Ruaro 2021-07-15 | Data: Kaggle| #TidyTuesday 2021w29'
     )
+    
